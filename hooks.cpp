@@ -23,9 +23,9 @@ bool __fastcall snowdropIsFileAvailableHook(_BYTE* filePath, int a2) {
 
     bool result = SnowdropIsFileAvailable(filePath, a2);
 
-	if (result || !g_modLoader) {
-		return result;
-	}
+    if (result || !g_modLoader) {
+        return result;
+    }
 
     std::string originalPath = reinterpret_cast<const char*>(filePath);
     std::string normalizedPath = Global::normalizePath(originalPath);
@@ -89,7 +89,7 @@ __int64 __fastcall getPlatformTypeHook(int* rcx)
 
 void initializeHooks()
 {
-	auto InitializeResult = MH_Initialize();
+    auto InitializeResult = MH_Initialize();
     if (InitializeResult != MH_OK && InitializeResult != MH_ERROR_ALREADY_INITIALIZED)
     {
         FRACTURE_ERROR("Failed to initialize MinHook!");
@@ -109,11 +109,11 @@ void initializeHooks()
         return;
     }
 
-	if (MH_CreateHook(reinterpret_cast<void*>(Addresses::LoadUILayout), reinterpret_cast<LPVOID>(&loadFacemanLayoutHook), reinterpret_cast<void**>(&LoadFacemanUILayout)) != MH_OK)
-	{
-		FRACTURE_ERROR("Failed to create LoadFacemanUILayout hook.\n");
-		return;
-	}
+    if (MH_CreateHook(reinterpret_cast<void*>(Addresses::LoadUILayout), reinterpret_cast<LPVOID>(&loadFacemanLayoutHook), reinterpret_cast<void**>(&LoadFacemanUILayout)) != MH_OK)
+    {
+        FRACTURE_ERROR("Failed to create LoadFacemanUILayout hook.\n");
+        return;
+    }
 
     if (MH_CreateHook(reinterpret_cast<void*>(Addresses::GetPlatformType), reinterpret_cast<LPVOID>(&getPlatformTypeHook), reinterpret_cast<void**>(&GetPlatformType)) != MH_OK)
     {
@@ -123,7 +123,7 @@ void initializeHooks()
 
     MH_EnableHook(MH_ALL_HOOKS);
 
-	FRACTURE_DEBUG("Hooks Initialized Successfully.");
+    FRACTURE_DEBUG("Hooks Initialized Successfully.");
 }
 
 void cleanupHooks()

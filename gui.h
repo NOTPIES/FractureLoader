@@ -262,7 +262,7 @@ HRESULT(__stdcall* ResizeBuffersOriginal)(
 	UINT Height,
 	DXGI_FORMAT NewFormat,
 	UINT SwapChainFlags
-);
+	);
 
 void cleanupRenderTarget()
 {
@@ -759,7 +759,7 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 						result.push_back(name.data());
 					}
 					return result;
-				}();
+					}();
 
 				static int currentPlatformIndex = static_cast<int>(Global::g_currentPlatform);
 

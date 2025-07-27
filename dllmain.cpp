@@ -58,7 +58,7 @@ static HANDLE hMainThread = nullptr;
 
 DWORD mainThread(HMODULE Module)
 {
-	FRACTURE_ALLOC_CONSOLE();
+    FRACTURE_ALLOC_CONSOLE();
 
     auto start = GetTickCount64();
     Addresses::Load();
@@ -74,25 +74,25 @@ DWORD mainThread(HMODULE Module)
 
     int EngineVer = GetSnowdropEngineVersion();
 
-	if (EngineVer < 0)
-	{
-		FRACTURE_ERROR("Failed to get Snowdrop engine version.");
-		return 1;
-	}
+    if (EngineVer < 0)
+    {
+        FRACTURE_ERROR("Failed to get Snowdrop engine version.");
+        return 1;
+    }
 
-	Global::engineVersion = "@Snowdrop/" + std::to_string(EngineVer);
-	FRACTURE_MSG("Snowdrop Engine Version: {}", Global::engineVersion);
+    Global::engineVersion = "@Snowdrop/" + std::to_string(EngineVer);
+    FRACTURE_MSG("Snowdrop Engine Version: {}", Global::engineVersion);
 
     if (g_loaderManager) {
         setupLoader();
-        
+
         FRACTURE_MSG("FractureLoader v{} initialized successfully.", Global::fractureLoaderVersion);
         FRACTURE_MSG("Base directory: " + g_loaderManager->getBaseDirectory());
-		FRACTURE_MSG("Mods directory: " + g_loaderManager->getModsDirectory());
+        FRACTURE_MSG("Mods directory: " + g_loaderManager->getModsDirectory());
 
         Global::g_currentPlatform = static_cast<CClient_PlatformEnum>(
             g_loaderManager->getValue<int>("spoofedPlatform", static_cast<int>(CClient_PlatformEnum::PC))
-        );
+            );
 
         g_modLoader = new ModLoader(g_loaderManager->getModsDirectory());
         g_modLoader->scanMods();
@@ -116,7 +116,7 @@ void cleanupLoader() {
         g_loaderManager->saveConfig();
         delete g_loaderManager;
         g_loaderManager = nullptr;
-		FRACTURE_DEBUG("Config Manager cleaned up.");
+        FRACTURE_DEBUG("Config Manager cleaned up.");
     }
 }
 
@@ -150,7 +150,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
             cleanupHooks();
             cleanupLoader();
             FRACTURE_FREE_CONSOLE();
-			FRACTURE_CLOSE_LOG_FILE();
+            FRACTURE_CLOSE_LOG_FILE();
         }
 
         unLoadOriginalDLL();
