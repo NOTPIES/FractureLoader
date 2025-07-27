@@ -1,0 +1,35 @@
+name: Build FractureLoader
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: Build Solution
+        run: msbuild FractureLoader.sln /p:Configuration=Release /p:Platform=x64
+
+      - name: Rename DLL
+        run: |
+          ren "x64\Release\FractureLoader.dll" "uplay_r1_loader64.dll"
+        shell: cmd
+
+      - name: Upload DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: uplay_r1_loader64
+          path: x64/Release/uplay_r1_loader64.dll
