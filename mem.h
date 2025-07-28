@@ -9,9 +9,9 @@ namespace Addresses
     extern uintptr_t LoadUI;
     extern uintptr_t InitUIStruct;
     extern uintptr_t BuildParamBlob;
-	extern uintptr_t GetUISystem;
+    extern uintptr_t GetUISystem;
     extern uintptr_t GetOtherSystemIDontKnowTheNameOf;
-	extern uintptr_t BindUIParams;
+    extern uintptr_t BindUIParams;
     extern uintptr_t EnqueueUI;
 
     extern uintptr_t LoadMMBModel;
@@ -22,11 +22,11 @@ namespace Addresses
     extern uintptr_t ReleaseResourceRef;
     extern uintptr_t SnowdropEngineVersion;
     extern uintptr_t SnowdropOpenFile;
-	extern uintptr_t SnowdropIsFileAvailable;
+    extern uintptr_t SnowdropIsFileAvailable;
     extern uintptr_t SnowdropInitFileStruct;
 
     // Camel Client
-	extern uintptr_t GetPlatformType;
+    extern uintptr_t GetPlatformType;
 
     void Load();
 }

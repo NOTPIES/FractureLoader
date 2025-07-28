@@ -4,8 +4,8 @@
 
 namespace Global
 {
-	inline const std::string fractureLoaderVersion = "1.0.0";
-	inline const std::string fractureLoaderRepo = "https://github.com/NOTPIES/FractureLoader";
+    inline const std::string fractureLoaderVersion = "1.0.0";
+    inline const std::string fractureLoaderRepo = "https://github.com/NOTPIES/FractureLoader";
 
     inline std::string engineVersion = "@Snowdrop/0";
 

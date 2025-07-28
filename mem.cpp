@@ -30,7 +30,7 @@ uintptr_t Addresses::BuildParamBlob = 0x1416C8A30;
 uintptr_t Addresses::GetPlatformType = 0;
 
 uintptr_t findPattern(const char* signature, bool bRelative = false, uint32_t offset = 0) {
-    uintptr_t base_address = reinterpret_cast<uintptr_t>(GetModuleHandle(NULL));
+	uintptr_t base_address = reinterpret_cast<uintptr_t>(GetModuleHandle(NULL));
 	static auto patternToByte = [](const char* pattern)
 		{
 			auto bytes = std::vector<int>{};
@@ -95,7 +95,7 @@ void Addresses::Load() {
 
 	LoadMMBModel = findPattern("48 8B C4 44 88 40 ? 48 89 50 ? 55");
 	if (!LoadMMBModel) FRACTURE_ERROR("Failed to find LoadMMBModel pattern!");
-	
+
 	LoadNPCFile = findPattern("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 89 CE 48 8D 4C 24 ? 48 89 D7 E8 ? ? ? ? 80 78");
 	if (!LoadNPCFile) FRACTURE_ERROR("Failed to find LoadNPCFile pattern!");
 

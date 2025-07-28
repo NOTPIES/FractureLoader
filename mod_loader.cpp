@@ -90,12 +90,12 @@ ModManifest ModLoader::parseManifest(const std::string& manifestPath) {
         else if (key == "dependencies") {
             manifest.dependencies = split(value, ',');
         }
-		else if (key == "preloadCustomAssets") {
-			manifest.preloadCustomAssets = (to_lower(value) == "true" || value == "1");
-		}
-		else {
-			FRACTURE_WARN("Unknown key '{}' in mod manifest: {}", key, manifestPath);
-		}
+        else if (key == "preloadCustomAssets") {
+            manifest.preloadCustomAssets = (to_lower(value) == "true" || value == "1");
+        }
+        else {
+            FRACTURE_WARN("Unknown key '{}' in mod manifest: {}", key, manifestPath);
+        }
     }
 
     file.close();
@@ -130,13 +130,13 @@ bool ModLoader::buildFileIndex(ModEntry& mod) {
         if (!entry.is_regular_file())
             continue;
 
-		if (entry.path().filename() == "manifest.ini")
-			continue;
+        if (entry.path().filename() == "manifest.ini")
+            continue;
 
         std::string relativePath = fs::relative(entry.path(), mod.modPath).string();
         mod.allFiles.insert(Global::normalizePath(relativePath));
 
-		FRACTURE_DEBUG("Indexed file: {} in mod: {}", relativePath, mod.name);
+        FRACTURE_DEBUG("Indexed file: {} in mod: {}", relativePath, mod.name);
     }
     return true;
 }
@@ -148,12 +148,12 @@ void ModLoader::scanMods() {
         return;
     }
 
-	FRACTURE_MSG("Loading mods from directory: {}", modsDirectory);
+    FRACTURE_MSG("Loading mods from directory: {}", modsDirectory);
 
     loadedMods.push_back(ModEntry{
         "FractureLoader", "notpies", Global::fractureLoaderVersion,
             "A mod loader for South Park: The Fractured But Whole.", "", true, false, true
-    });
+        });
 
     for (const auto& entry : fs::directory_iterator(modsDirectory)) {
         if (!entry.is_directory()) {
@@ -165,7 +165,7 @@ void ModLoader::scanMods() {
 
         ModManifest manifest = parseManifest(manifestPath);
         if (!manifest.valid) {
-			FRACTURE_ERROR("Invalid mod manifest in directory: {}, the mod will not be loaded.", modDir);
+            FRACTURE_ERROR("Invalid mod manifest in directory: {}, the mod will not be loaded.", modDir);
             continue;
         }
 
@@ -178,7 +178,7 @@ void ModLoader::scanMods() {
         mod.enabled = isModEnabled(mod.name);
         mod.hasConflict = false; // will be set by detectConflicts()
         mod.baseMod = false; // reserved for internal use
-		mod.preloadCustomAssets = manifest.preloadCustomAssets;
+        mod.preloadCustomAssets = manifest.preloadCustomAssets;
 
         // TODO: dependencies
 
@@ -218,6 +218,7 @@ std::string ModLoader::findFileOverride(const std::string& originalPath) {
         const ModEntry& mod = *it;
 
         if (mod.baseMod) continue;
+        if (mod.hasConflict) continue;
 
         if (mod.allFiles.count(normalizedPath) > 0) {
             std::string overridePath = mod.modPath + "\\" + normalizedPath;
@@ -317,7 +318,7 @@ void ModLoader::detectConflicts() {
         }
     }
 
-	// file conflicts
+    // file conflicts
     for (size_t i = 0; i < loadedMods.size(); ++i) {
         if (loadedMods[i].baseMod || !loadedMods[i].enabled)
             continue;

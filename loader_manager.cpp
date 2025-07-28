@@ -116,7 +116,7 @@ private:
 
         }
         catch (const std::exception& e) {
-			//FRACTURE_ERROR("Failed to create directory structure: {}", e.what());
+            //FRACTURE_ERROR("Failed to create directory structure: {}", e.what());
         }
     }
 
@@ -221,18 +221,18 @@ void setupLoader() {
         "Key to toggle the menu visibility"
     ));
 
-	g_loaderManager->addConfigItem(ConfigItem(
-		"menuInputPassthrough",
-		false,
-		"Enable input passthrough when the menu is open - allows mouse and keyboard input to pass through to the game",
-		{ "Set to true to allow input passthrough, false to block input while the menu is open" }
-	));
+    g_loaderManager->addConfigItem(ConfigItem(
+        "menuInputPassthrough",
+        false,
+        "Enable input passthrough when the menu is open - allows mouse and keyboard input to pass through to the game",
+        { "Set to true to allow input passthrough, false to block input while the menu is open" }
+    ));
 
-	g_loaderManager->addConfigItem(ConfigItem(
-		"spoofedPlatform",
-		(int)CClient_PlatformEnum::PC,
-		"Sets the platform type that the game reports, can influence platform-specific behavior, assets, or UI elements."
-	));
+    g_loaderManager->addConfigItem(ConfigItem(
+        "spoofedPlatform",
+        (int)CClient_PlatformEnum::PC,
+        "Sets the platform type that the game reports, can influence platform-specific behavior, assets, or UI elements."
+    ));
 
     // TODO for 1.0.1
     /*g_loaderManager->addConfigItem(ConfigItem(
