@@ -96,6 +96,12 @@
     <ClInclude Include="cclient_enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="git_commit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="memcury\memcury.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

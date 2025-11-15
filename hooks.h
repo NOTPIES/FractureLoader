@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-typedef unsigned char _BYTE;
+using _BYTE = unsigned char;
 
 void initializeHooks();
 void cleanupHooks();

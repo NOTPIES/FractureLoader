@@ -8,6 +8,8 @@
 #include <algorithm>
 #include "functions.h"
 
+#include "memcury/memcury.h"
+
 uintptr_t Addresses::LoadUILayout = 0;
 uintptr_t Addresses::LoadMMBModel = 0;
 uintptr_t Addresses::LoadNPCFile = 0;
@@ -29,93 +31,77 @@ uintptr_t Addresses::BuildParamBlob = 0x1416C8A30;
 
 uintptr_t Addresses::GetPlatformType = 0;
 
-uintptr_t findPattern(const char* signature, bool bRelative = false, uint32_t offset = 0) {
-	uintptr_t base_address = reinterpret_cast<uintptr_t>(GetModuleHandle(NULL));
-	static auto patternToByte = [](const char* pattern)
-		{
-			auto bytes = std::vector<int>{};
-			const auto start = const_cast<char*>(pattern);
-			const auto end = const_cast<char*>(pattern) + strlen(pattern);
+uintptr_t memcuryFind(const char* pattern, const char* name)
+{
+	auto scanner = Memcury::Scanner::FindPattern(pattern);
+	uintptr_t result = scanner.Get();
 
-			for (auto current = start; current < end; ++current)
-			{
-				if (*current == '?')
-				{
-					++current;
-					if (*current == '?') ++current;
-					bytes.push_back(-1);
-				}
-				else { bytes.push_back(strtoul(current, &current, 16)); }
-			}
-			return bytes;
-		};
+	if (result)
+		FRACTURE_DEBUG("Pattern '{}' found at address: {:X}", name, result);
+	else
+		FRACTURE_ERROR("Failed to find '{}' pattern!", name);
 
-	const auto dosHeader = (PIMAGE_DOS_HEADER)base_address;
-	const auto ntHeaders = (PIMAGE_NT_HEADERS)((std::uint8_t*)base_address + dosHeader->e_lfanew);
-
-	const auto sizeOfImage = ntHeaders->OptionalHeader.SizeOfImage;
-	auto patternBytes = patternToByte(signature);
-	const auto scanBytes = reinterpret_cast<std::uint8_t*>(base_address);
-
-	const auto s = patternBytes.size();
-	const auto d = patternBytes.data();
-
-	for (auto i = 0ul; i < sizeOfImage - s; ++i)
-	{
-		bool found = true;
-		for (auto j = 0ul; j < s; ++j)
-		{
-			if (scanBytes[i + j] != d[j] && d[j] != -1)
-			{
-				found = false;
-				break;
-			}
-		}
-		if (found)
-		{
-			uintptr_t address = reinterpret_cast<uintptr_t>(&scanBytes[i]);
-			if (bRelative)
-			{
-				address = ((address + offset + 4) + *(int32_t*)(address + offset));
-				FRACTURE_DEBUG("Pattern found at address: 0x{:X} (relative)", address);
-				return address;
-			}
-
-			FRACTURE_DEBUG("Pattern found at address: 0x{:X}", address);
-			return address;
-		}
-	}
-
-	return NULL;
+	return result;
 }
 
-void Addresses::Load() {
-	LoadUILayout = findPattern("48 89 74 24 ? 48 89 7C 24 ? 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 4C 8B 35");
-	if (!LoadUILayout) FRACTURE_ERROR("Failed to find LoadUILayout pattern!");
+bool readMemory(uintptr_t address, void* buffer, size_t size)
+{
+	ReadProcessMemory(GetCurrentProcess(), (LPCVOID)address, buffer, size, nullptr);
+	return true;
+}
 
-	LoadMMBModel = findPattern("48 8B C4 44 88 40 ? 48 89 50 ? 55");
-	if (!LoadMMBModel) FRACTURE_ERROR("Failed to find LoadMMBModel pattern!");
+bool writeMemory(uintptr_t address, const void* buffer, size_t size)
+{
+	WriteProcessMemory(GetCurrentProcess(), (LPVOID)address, buffer, size, nullptr);
+	return true;
+}
 
-	LoadNPCFile = findPattern("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 89 CE 48 8D 4C 24 ? 48 89 D7 E8 ? ? ? ? 80 78");
-	if (!LoadNPCFile) FRACTURE_ERROR("Failed to find LoadNPCFile pattern!");
+void Addresses::Load()
+{
+	LoadUILayout = memcuryFind(
+		"48 89 74 24 ? 48 89 7C 24 ? 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 4C 8B 35",
+		"LoadUILayout"
+	);
 
-	InitUIStruct = findPattern("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 89 CB 48 83 C1 ? 48 89 D6");
-	if (!InitUIStruct) FRACTURE_ERROR("Failed to find InitUIStruct pattern!");
+	LoadMMBModel = memcuryFind(
+		"48 8B C4 44 88 40 ? 48 89 50 ? 55",
+		"LoadMMBModel"
+	);
 
-	ReleaseResourceRef = findPattern("48 89 5C 24 ? 57 48 83 EC ? 8B 41 ? 48 89 CF 83 F8");
-	if (!ReleaseResourceRef) FRACTURE_ERROR("Failed to find ReleaseResourceRef pattern!");
+	LoadNPCFile = memcuryFind(
+		"48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 89 CE 48 8D 4C 24 ? 48 89 D7 E8 ? ? ? ? 80 78",
+		"LoadNPCFile"
+	);
 
-	SnowdropOpenFile = findPattern("40 53 55 41 56 48 83 EC ? 41 8B E8");
-	if (!SnowdropOpenFile) FRACTURE_ERROR("Failed to find SnowdropOpenFile pattern! (Mod loading will NOT work!)");
+	InitUIStruct = memcuryFind(
+		"48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 89 CB 48 83 C1 ? 48 89 D6",
+		"InitUIStruct"
+	);
 
-	SnowdropIsFileAvailable = findPattern("53 48 83 EC ? 48 89 CB 48 85 C9 74 ? 80 39 ? 74 ? 84 D2 75 ? 48 8B 0D ? ? ? ? 48 85 C9 74 ? 48 8B 01 48 89 DA");
-	if (!SnowdropIsFileAvailable) FRACTURE_ERROR("Failed to find SnowdropIsFileAvailable pattern!");
+	ReleaseResourceRef = memcuryFind(
+		"48 89 5C 24 ? 57 48 83 EC ? 8B 41 ? 48 89 CF 83 F8",
+		"ReleaseResourceRef"
+	);
 
-	SnowdropInitFileStruct = findPattern("53 48 83 EC ? 48 89 CB 48 83 C1 ? E8 ? ? ? ? 31 C0 48 C7 43");
-	if (!SnowdropInitFileStruct) FRACTURE_ERROR("Failed to find SnowdropInitFileStruct pattern!");
+	SnowdropOpenFile = memcuryFind(
+		"40 53 55 41 56 48 83 EC ? 41 8B E8",
+		"SnowdropOpenFile"
+	);
 
-	GetPlatformType = findPattern("8B 05 ? ? ? ? 83 F8 ? 77 ? 89 01");
-	if (!GetPlatformType) FRACTURE_ERROR("Failed to find GetPlatformType pattern!");
+	SnowdropIsFileAvailable = memcuryFind(
+		"53 48 83 EC ? 48 89 CB 48 85 C9 74 ? 80 39 ? 74 ? 84 D2 75 ? 48 8B 0D ? ? ? ? 48 85 C9 74 ? 48 8B 01 48 89 DA",
+		"SnowdropIsFileAvailable"
+	);
+
+	SnowdropInitFileStruct = memcuryFind(
+		"53 48 83 EC ? 48 89 CB 48 83 C1 ? E8 ? ? ? ? 31 C0 48 C7 43",
+		"SnowdropInitFileStruct"
+	);
+
+	GetPlatformType = memcuryFind(
+		"8B 05 ? ? ? ? 83 F8 ? 77 ? 89 01",
+		"GetPlatformType"
+	);
 
 	loadFunctionPointers();
 }

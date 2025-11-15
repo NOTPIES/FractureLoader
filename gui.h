@@ -16,11 +16,11 @@
 #include <filesystem>
 #include "git_commit.h"
 
-HRESULT(WINAPI* PresentOriginal)(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_t Flags);
+HRESULT (WINAPI*PresentOriginal)(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_t Flags);
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-HWND wnd = NULL;
+HWND wnd = nullptr;
 WNDPROC oWndProc;
 ID3D11Device* pDevice = nullptr;
 ID3D11DeviceContext* pContext = nullptr;
@@ -130,12 +130,12 @@ void setupImGuiStyle()
 	style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
 	style.SelectableTextAlign = ImVec2(0.0f, 0.0f);
 
-	ImVec4 bgColor = ImVec4(0.13f, 0.14f, 0.17f, 1.00f);
-	ImVec4 highlight = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
-	ImVec4 midlight = ImVec4(0.20f, 0.21f, 0.25f, 1.00f);
+	auto bgColor = ImVec4(0.13f, 0.14f, 0.17f, 1.00f);
+	auto highlight = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+	auto midlight = ImVec4(0.20f, 0.21f, 0.25f, 1.00f);
 
-	ImVec4 white = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-	ImVec4 disabled = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
+	auto white = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+	auto disabled = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
 
 	ImVec4* colors = style.Colors;
 	colors[ImGuiCol_Text] = white;
@@ -188,7 +188,8 @@ void setupImGuiStyle()
 	colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.20f, 0.20f, 0.20f, 0.51f);
 }
 
-void textCentered(std::string text) {
+void textCentered(std::string text)
+{
 	auto windowWidth = ImGui::GetWindowSize().x;
 	auto textWidth = ImGui::CalcTextSize(text.c_str()).x;
 
@@ -207,8 +208,8 @@ LRESULT __stdcall wndProc(const HWND hWnd, uint32_t message, WPARAM wParam, LPAR
 				wParam != VK_LWIN && wParam != VK_RWIN && wParam != VK_APPS &&
 				wParam >= 8 && wParam < 256)
 			{
-				menuToggleKey = (UINT)wParam;
-				g_loaderManager->setValue("menuToggleKey", (int)menuToggleKey);
+				menuToggleKey = static_cast<UINT>(wParam);
+				g_loaderManager->setValue("menuToggleKey", static_cast<int>(menuToggleKey));
 				g_loaderManager->saveConfig();
 				isCapturingKey = false;
 			}
@@ -232,7 +233,6 @@ LRESULT __stdcall wndProc(const HWND hWnd, uint32_t message, WPARAM wParam, LPAR
 	case WM_SIZE:
 		if (pDevice && wParam != SIZE_MINIMIZED)
 		{
-
 		}
 		break;
 	case WM_QUIT:
@@ -255,14 +255,14 @@ LRESULT __stdcall wndProc(const HWND hWnd, uint32_t message, WPARAM wParam, LPAR
 	return CallWindowProc(oWndProc, hWnd, message, wParam, lParam);
 }
 
-HRESULT(__stdcall* ResizeBuffersOriginal)(
+HRESULT (__stdcall*ResizeBuffersOriginal)(
 	IDXGISwapChain* pSwapChain,
 	UINT BufferCount,
 	UINT Width,
 	UINT Height,
 	DXGI_FORMAT NewFormat,
 	UINT SwapChainFlags
-	);
+);
 
 void cleanupRenderTarget()
 {
@@ -277,7 +277,7 @@ void createRenderTarget(IDXGISwapChain* pSwapChain)
 {
 	ID3D11Texture2D* pBackBuffer = nullptr;
 	pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-	pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
+	pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &mainRenderTargetView);
 	pBackBuffer->Release();
 }
 
@@ -320,7 +320,7 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 			wnd = sd.OutputWindow;
 			ID3D11Texture2D* pBackBuffer;
 			SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-			pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
+			pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &mainRenderTargetView);
 			pBackBuffer->Release();
 			oWndProc = (WNDPROC)SetWindowLongPtr(wnd, GWLP_WNDPROC, (LONG_PTR)wndProc);
 			ImGui::CreateContext();
@@ -332,7 +332,7 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 
 			setupImGuiStyle();
 
-			menuToggleKey = g_loaderManager->getValue<int>("menuToggleKey", (int)VK_INSERT);
+			menuToggleKey = g_loaderManager->getValue<int>("menuToggleKey", VK_INSERT);
 			bAllowInputPassThrough = g_loaderManager->getValue<bool>("menuInputPassthrough", false);
 			bHasInit = true;
 		}
@@ -357,16 +357,18 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 		static char g_UIGraphPath[256] = "camel/ui/graphs/fpp_startmenu.muigraph";
 		static __int64 g_uiTestHandle = 0;
 
-		if (ImGui::BeginTabBar("")) {
-
+		if (ImGui::BeginTabBar(""))
+		{
 			if (ImGui::BeginTabItem(("Home")))
 			{
 				Tab = 0;
 				ImGui::Text("Welcome to FractureLoader!");
 				ImGui::Separator();
-				ImGui::TextWrapped("FractureLoader is a experimental and WIP mod loader for South Park: The Fractured But Whole, a game built on Massive Entertainment's Snowdrop Engine.");
+				ImGui::TextWrapped(
+					"FractureLoader is a experimental and WIP mod loader for South Park: The Fractured But Whole, a game built on Massive Entertainment's Snowdrop Engine.");
 				ImGui::Spacing();
-				ImGui::TextWrapped("Use the other tabs to load faceman layouts or UI graphs, and check the 'Mods' tab to activate or view loaded mods.");
+				ImGui::TextWrapped(
+					"Use the other tabs to load faceman layouts or UI graphs, and check the 'Mods' tab to activate or view loaded mods.");
 
 				ImGui::Spacing();
 
@@ -376,7 +378,7 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 				ImGui::Text("Compile Time: %s %s", Global::buildDate, Global::buildTime);
 
 				if (ImGui::Button("Open GitHub Repository"))
-					ShellExecuteA(NULL, "open", Global::fractureLoaderRepo.c_str(), NULL, NULL, SW_SHOWNORMAL);
+					ShellExecuteA(nullptr, "open", Global::fractureLoaderRepo.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
 
 				ImGui::Spacing();
 
@@ -404,9 +406,11 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 				ImGui::NewLine();
 
 				ImGui::Separator();
-				ImGui::TextWrapped("Faceman layouts are inspectors used on the Snowdrop Engine editor, most of these layouts features will not work on the Retail version of the game due to stripped code.");
+				ImGui::TextWrapped(
+					"Faceman layouts are inspectors used on the Snowdrop Engine editor, most of these layouts features will not work on the Retail version of the game due to stripped code.");
 				ImGui::Spacing();
-				ImGui::TextWrapped("Note: The Faceman layout loading feature is experimental and may not work as expected. It is intended for testing purposes only.");
+				ImGui::TextWrapped(
+					"Note: The Faceman layout loading feature is experimental and may not work as expected. It is intended for testing purposes only.");
 
 				ImGui::EndTabItem();
 			}
@@ -453,9 +457,10 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 
 							if (qword_143AD9E68_ptr && *qword_143AD9E68_ptr)
 							{
-								QwordFunc_t func = (QwordFunc_t)(*qword_143AD9E68_ptr);
+								auto func = (QwordFunc_t)(*qword_143AD9E68_ptr);
 								func(scratch);
-								FRACTURE_DEBUG("[LoadUI] Called function pointer at qword_143AD9E68 with scratch buffer\n");
+								FRACTURE_DEBUG(
+									"[LoadUI] Called function pointer at qword_143AD9E68 with scratch buffer\n");
 							}
 							else
 							{
@@ -463,7 +468,7 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 							}
 
 							_BYTE* blobPtr = paramBlob;
-							BindUIParams((__int64)res + 16, &blobPtr, 1);
+							BindUIParams(res + 16, &blobPtr, 1);
 							FRACTURE_DEBUG("[LoadUI] Parameter blob bound to UI object.");
 
 							__int64 unkSystem = GetUISystem(0);
@@ -472,7 +477,7 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 							__int64 renderList = *(__int64*)(unkSystem + 0xD0);
 							FRACTURE_DEBUG("[LoadUI] Render list: 0x{:X}", renderList);
 
-							EnqueueUI(renderList, (__int64)res);
+							EnqueueUI(renderList, static_cast<__int64>(res));
 						}
 					}
 				}
@@ -480,9 +485,11 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 				ImGui::NewLine();
 
 				ImGui::Separator();
-				ImGui::TextWrapped("UI Graphs are widget objects used by the game to display menus, some of them require to be activated by a certain event or action, which will cause some UI Graphs to not display using this loader.");
+				ImGui::TextWrapped(
+					"UI Graphs are widget objects used by the game to display menus, some of them require to be activated by a certain event or action, which will cause some UI Graphs to not display using this loader.");
 				ImGui::Spacing();
-				ImGui::TextWrapped("Note: The UI Graph loading feature is experimental and may not work as expected. It is intended for testing purposes only.");
+				ImGui::TextWrapped(
+					"Note: The UI Graph loading feature is experimental and may not work as expected. It is intended for testing purposes only.");
 
 				ImGui::EndTabItem();
 			}
@@ -501,11 +508,12 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 				auto& mods = g_modLoader->getMods();
 
 				int enabledCount = 0;
-				for (const auto& mod : mods) {
+				for (const auto& mod : mods)
+				{
 					if (mod.enabled) enabledCount++;
 				}
 
-				ImGui::Text("Total mods: %d | Enabled: %d", (int)mods.size(), enabledCount);
+				ImGui::Text("Total mods: %d | Enabled: %d", static_cast<int>(mods.size()), enabledCount);
 				ImGui::Separator();
 
 				static bool restartRequired = false;
@@ -530,7 +538,8 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 						ImGui::TextColored(ImVec4(1.0f, 0.2f, 0.2f, 1.0f), "CONFLICT");
 					}
 
-					if (mod.baseMod) {
+					if (mod.baseMod)
+					{
 						ImGui::SameLine();
 						ImGui::TextColored(ImVec4(0.2f, 0.8f, 0.2f, 1.0f), "BUILT-IN");
 					}
@@ -540,10 +549,12 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 					ImGui::SetCursorPosX(checkboxOffset);
 					bool previousState = mod.enabled;
 
-					if (!mod.baseMod && ImGui::Checkbox("Enabled", &mod.enabled)) {
+					if (!mod.baseMod && ImGui::Checkbox("Enabled", &mod.enabled))
+					{
 						g_modLoader->setModEnabled(mod.name, mod.enabled);
 
-						if (previousState != mod.enabled) {
+						if (previousState != mod.enabled)
+						{
 							restartRequired = true;
 						}
 					}
@@ -555,9 +566,11 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 
 				ImGui::EndChild();
 
-				if (restartRequired) {
+				if (restartRequired)
+				{
 					ImGui::Spacing();
-					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "You must restart the game for changes to take effect.");
+					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f),
+					                   "You must restart the game for changes to take effect.");
 				}
 
 				ImGui::Spacing();
@@ -567,7 +580,8 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 				ImGui::SetCursorPosX((ImGui::GetContentRegionAvail().x - 150.0f) * 0.5f);
 				if (ImGui::Button("Open Mods Folder", ImVec2(150.0f, 0)))
 				{
-					ShellExecuteA(nullptr, "open", g_loaderManager->getModsDirectory().c_str(), nullptr, nullptr, SW_SHOWDEFAULT);
+					ShellExecuteA(nullptr, "open", g_loaderManager->getModsDirectory().c_str(), nullptr, nullptr,
+					              SW_SHOWDEFAULT);
 				}
 
 				ImGui::EndTabItem();
@@ -585,7 +599,8 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 
 				ImGui::Text("Resource Management");
 				ImGui::Separator();
-				ImGui::TextWrapped("This tab is for testing resource loading using engine functions, useful to test if custom or overridden assets are loading correctly.");
+				ImGui::TextWrapped(
+					"This tab is for testing resource loading using engine functions, useful to test if custom or overridden assets are loading correctly.");
 				ImGui::Spacing();
 
 				ImGui::InputText("Resource Path", resourcePath, sizeof(resourcePath));
@@ -617,9 +632,21 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 				ImGui::EndTabItem();
 			}
 
-			if (ImGui::BeginTabItem(("Options")))
+			if (ImGui::BeginTabItem("Ally Swap"))
 			{
 				Tab = 5;
+
+				ImGui::Text("Ally Swap");
+				ImGui::Separator();
+				ImGui::TextWrapped("This tab is for swapping allies in your current party.");
+				ImGui::Spacing();
+
+				ImGui::EndTabItem();
+			}
+
+			if (ImGui::BeginTabItem(("Options")))
+			{
+				Tab = 6;
 
 				if (!g_loaderManager)
 				{
@@ -641,7 +668,8 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 					g_loaderManager->saveConfig();
 				}
 
-				ImGui::TextWrapped("Enabling debug logging will output detailed information to help with troubleshooting and debugging mod loading issues. "
+				ImGui::TextWrapped(
+					"Enabling debug logging will output detailed information to help with troubleshooting and debugging mod loading issues. "
 					"Disable it for better performance if you don't need debug information.");
 
 				ImGui::Spacing();
@@ -657,7 +685,8 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 					g_loaderManager->saveConfig();
 				}
 
-				ImGui::TextWrapped("Enabling input passthrough allows mouse and keyboard input to pass through to the game while the menu is open. "
+				ImGui::TextWrapped(
+					"Enabling input passthrough allows mouse and keyboard input to pass through to the game while the menu is open. "
 					"Disable it to block input while the menu is open, which can be useful for preventing accidental input.");
 
 				ImGui::Spacing();
@@ -695,12 +724,15 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 
 				if (!isCapturingKey)
 				{
-					ImGui::TextWrapped("Click the button above, then press the key you want to use to toggle the menu. Default is Insert.");
+					ImGui::TextWrapped(
+						"Click the button above, then press the key you want to use to toggle the menu. Default is Insert.");
 				}
 				else
 				{
-					ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "Press any key to set as toggle key, or ESC to cancel.");
-					ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.0f), "Modifier keys (Shift, Ctrl, Alt, Windows) are not allowed.");
+					ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f),
+					                   "Press any key to set as toggle key, or ESC to cancel.");
+					ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.0f),
+					                   "Modifier keys (Shift, Ctrl, Alt, Windows) are not allowed.");
 				}
 
 				// TODO for 1.0.1
@@ -751,19 +783,22 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 				ImGui::TextColored(ImVec4(0.4f, 0.8f, 1.0f, 1.0f), "Game Options");
 				ImGui::Separator();
 
-				static std::vector<const char*> platformCStr = []() {
+				static std::vector<const char*> platformCStr = []()
+				{
 					std::vector<const char*> result;
 					constexpr auto names = magic_enum::enum_names<CClient_PlatformEnum>();
 					result.reserve(names.size());
-					for (auto name : names) {
+					for (auto name : names)
+					{
 						result.push_back(name.data());
 					}
 					return result;
-					}();
+				}();
 
-				static int currentPlatformIndex = static_cast<int>(Global::g_currentPlatform);
+				static int currentPlatformIndex = Global::g_currentPlatform;
 
-				if (ImGui::Combo("Platform Type", &currentPlatformIndex, platformCStr.data(), (int)platformCStr.size()))
+				if (ImGui::Combo("Platform Type", &currentPlatformIndex, platformCStr.data(),
+				                 static_cast<int>(platformCStr.size())))
 				{
 					Global::g_currentPlatform = static_cast<CClient_PlatformEnum>(currentPlatformIndex);
 
@@ -788,7 +823,7 @@ HRESULT WINAPI hookPresent(IDXGISwapChain* SwapChain, uint32_t Interval, uint32_
 		ImGui::End();
 		ImGui::Render();
 
-		pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
+		pContext->OMSetRenderTargets(1, &mainRenderTargetView, nullptr);
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
 	return PresentOriginal(SwapChain, Interval, Flags);
