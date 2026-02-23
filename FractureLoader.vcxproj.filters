@@ -1,153 +1,241 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Public">
+      <UniqueIdentifier>{a0000001-0000-0000-0000-000000000001}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Public\Snowdrop">
+      <UniqueIdentifier>{a0000001-0000-0000-0000-000000000002}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Public\Snowdrop\MCommon">
+      <UniqueIdentifier>{a0000001-0000-0000-0000-000000000003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private">
+      <UniqueIdentifier>{b0000001-0000-0000-0000-000000000001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Core">
+      <UniqueIdentifier>{b0000001-0000-0000-0000-000000000002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Memory">
+      <UniqueIdentifier>{b0000001-0000-0000-0000-000000000003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Logging">
+      <UniqueIdentifier>{b0000001-0000-0000-0000-000000000004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Loader">
+      <UniqueIdentifier>{b0000001-0000-0000-0000-000000000005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Hooks">
+      <UniqueIdentifier>{b0000001-0000-0000-0000-000000000006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\GUI">
+      <UniqueIdentifier>{b0000001-0000-0000-0000-000000000007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Proxy">
+      <UniqueIdentifier>{b0000001-0000-0000-0000-000000000008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\VFS">
+      <UniqueIdentifier>{b0000001-0000-0000-0000-000000000009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{c0000001-0000-0000-0000-000000000001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\ImGui">
+      <UniqueIdentifier>{c0000001-0000-0000-0000-000000000002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Kiero">
+      <UniqueIdentifier>{c0000001-0000-0000-0000-000000000003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\MagicEnum">
+      <UniqueIdentifier>{c0000001-0000-0000-0000-000000000004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Memcury">
+      <UniqueIdentifier>{c0000001-0000-0000-0000-000000000005}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hooks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imconfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_dx11.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_win32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_xorstr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_rectpack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_textedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\stb_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\stb_rect_pack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\stb_textedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\stb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="includes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="kiero\kiero.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="logger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="loader_manager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mod_loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="uplay_proxy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="magic_enum\magic_enum.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cclient_enums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="git_commit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memcury\memcury.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
+    <!-- Private Sources -->
+    <ClCompile Include="Private\Core\dllmain.cpp">
+      <Filter>Private\Core</Filter>
     </ClCompile>
-    <ClCompile Include="mem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Private\Memory\functions.cpp">
+      <Filter>Private\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="hooks.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Private\Memory\mem.cpp">
+      <Filter>Private\Memory</Filter>
     </ClCompile>
+    <ClCompile Include="Private\Hooks\hooks.cpp">
+      <Filter>Private\Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Loader\loader_manager.cpp">
+      <Filter>Private\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Loader\mod_loader.cpp">
+      <Filter>Private\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Proxy\uplay_proxy.cpp">
+      <Filter>Private\Proxy</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\VFS\VFS.cpp">
+      <Filter>Private\VFS</Filter>
+    </ClCompile>
+    <!-- Third-Party Sources -->
     <ClCompile Include="ImGui\imgui.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_demo.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_win32.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="kiero\kiero.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="functions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="loader_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mod_loader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="uplay_proxy.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ThirdParty\Kiero</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ImGui\LICENSE.txt" />
+    <!-- Public Headers -->
+    <ClInclude Include="Public\FunctionTypes.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\SDK.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\Enums.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\Node.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\Structs.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\Camera.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\World.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\Actor.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\VFS.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\Utils.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\Native.h">
+      <Filter>Public\Snowdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\MCommon\MC_String.h">
+      <Filter>Public\Snowdrop\MCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Snowdrop\MCommon\MC_Vector.h">
+      <Filter>Public\Snowdrop\MCommon</Filter>
+    </ClInclude>
+    <!-- Private Headers -->
+    <ClInclude Include="Private\Core\framework.h">
+      <Filter>Private\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Core\git_commit.h">
+      <Filter>Private\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Core\global.h">
+      <Filter>Private\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Core\includes.h">
+      <Filter>Private\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Memory\functions.h">
+      <Filter>Private\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Memory\mem.h">
+      <Filter>Private\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Logging\logger.h">
+      <Filter>Private\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Loader\loader_manager.h">
+      <Filter>Private\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Loader\mod_loader.h">
+      <Filter>Private\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Hooks\hooks.h">
+      <Filter>Private\Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\GUI\gui.h">
+      <Filter>Private\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\GUI\camera_loop.h">
+      <Filter>Private\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\Proxy\uplay_proxy.h">
+      <Filter>Private\Proxy</Filter>
+    </ClInclude>
+    <!-- Third-Party Headers -->
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx11.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_xorstr.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\stb_image.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\stb_rect_pack.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\stb_textedit.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\stb_truetype.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="kiero\kiero.h">
+      <Filter>ThirdParty\Kiero</Filter>
+    </ClInclude>
+    <ClInclude Include="magic_enum\magic_enum.hpp">
+      <Filter>ThirdParty\MagicEnum</Filter>
+    </ClInclude>
+    <ClInclude Include="memcury\memcury.h">
+      <Filter>ThirdParty\Memcury</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ImGui\LICENSE.txt">
+      <Filter>ThirdParty\ImGui</Filter>
+    </Text>
   </ItemGroup>
 </Project>

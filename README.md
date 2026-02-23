@@ -15,6 +15,10 @@ FractureLoader also includes extra tools for Snowdrop Engine debugging and moddi
 - A **UI Blueprint Loader** (muigraph)
 - An **Faceman Engine Layouts Loader**
 - Platform Changer (enable platform-specific behavior, etc)
+- Skip Startup Intro (skip logos/videos on launch)
+- Demo Type Changer (change demo-related restrictions, enable E3 mode)
+- **Camera Controls** (FOV override, free camera)
+- **World Management** (game state, time of day, teleportation, actor inspector)
 
 > **Note:** This project is **experimental** and under **active development**.
 
@@ -33,6 +37,16 @@ FractureLoader also includes extra tools for Snowdrop Engine debugging and moddi
 - **No File Size Restrictions:** Modified files do **not** need to match the original file size.
   
     > **Important:** If you modify binary files like `.mmb`, ensure you also update any size fields (in hex) inside the file as required by the format.
+
+- **Camera Controls:**
+  - **FOV Override** – Adjust the camera field of view with a slider.
+  - **Free Camera** – Detach the camera from the player and move freely using arrow keys. Scroll wheel adjusts FOV. Sensitivity is configurable.
+
+- **World Management:**
+  - **Game Action State** – View and change the current game action state.
+  - **Time of Day** – Change the in-game time of day.
+  - **Teleportation** – Teleport the player to specific coordinates.
+  - **Actor Inspector** – Browse all actors in the world, view and edit their position, rotation, and scale. Teleport to/from actors or possess them.
 
 ---
 

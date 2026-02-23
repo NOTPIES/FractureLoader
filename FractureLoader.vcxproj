@@ -94,7 +94,7 @@
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>powershell.exe -Command "$hash = git rev-parse --short HEAD; Set-Content -Encoding ASCII $(ProjectDir)git_commit.h \"#pragma once`n#define GIT_COMMIT_HASH `\"$hash`\"\""</Command>
+      <Command>powershell.exe -Command "$hash = git rev-parse --short HEAD; Set-Content -Encoding ASCII $(ProjectDir)Private\Core\git_commit.h \"#pragma once`n#define GIT_COMMIT_HASH `\"$hash`\"\""</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Get Git Commit</Message>
@@ -127,7 +127,7 @@
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>powershell.exe -Command "$hash = git rev-parse --short HEAD; Set-Content -Encoding ASCII $(ProjectDir)git_commit.h \"#pragma once`n#define GIT_COMMIT_HASH `\"$hash`\"\""</Command>
+      <Command>powershell.exe -Command "$hash = git rev-parse --short HEAD; Set-Content -Encoding ASCII $(ProjectDir)Private\Core\git_commit.h \"#pragma once`n#define GIT_COMMIT_HASH `\"$hash`\"\""</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Get Git Commit</Message>
@@ -156,7 +156,7 @@
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>powershell.exe -Command "$hash = git rev-parse --short HEAD; Set-Content -Encoding ASCII $(ProjectDir)git_commit.h \"#pragma once`n#define GIT_COMMIT_HASH `\"$hash`\"\""</Command>
+      <Command>powershell.exe -Command "$hash = git rev-parse --short HEAD; Set-Content -Encoding ASCII $(ProjectDir)Private\Core\git_commit.h \"#pragma once`n#define GIT_COMMIT_HASH `\"$hash`\"\""</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Get Git Commit</Message>
@@ -189,19 +189,42 @@
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>powershell.exe -Command "$hash = git rev-parse --short HEAD; Set-Content -Encoding ASCII $(ProjectDir)git_commit.h \"#pragma once`n#define GIT_COMMIT_HASH `\"$hash`\"\""</Command>
+      <Command>powershell.exe -Command "$hash = git rev-parse --short HEAD; Set-Content -Encoding ASCII $(ProjectDir)Private\Core\git_commit.h \"#pragma once`n#define GIT_COMMIT_HASH `\"$hash`\"\""</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Get Git Commit</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="cclient_enums.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="functions.h" />
-    <ClInclude Include="git_commit.h" />
-    <ClInclude Include="global.h" />
-    <ClInclude Include="gui.h" />
+    <!-- Public SDK Headers -->
+    <ClInclude Include="Public\FunctionTypes.h" />
+    <ClInclude Include="Public\Snowdrop\SDK.h" />
+    <ClInclude Include="Public\Snowdrop\Enums.h" />
+    <ClInclude Include="Public\Snowdrop\Node.h" />
+    <ClInclude Include="Public\Snowdrop\Structs.h" />
+    <ClInclude Include="Public\Snowdrop\Camera.h" />
+    <ClInclude Include="Public\Snowdrop\World.h" />
+    <ClInclude Include="Public\Snowdrop\Actor.h" />
+    <ClInclude Include="Public\Snowdrop\VFS.h" />
+    <ClInclude Include="Public\Snowdrop\Utils.h" />
+    <ClInclude Include="Public\Snowdrop\Native.h" />
+    <ClInclude Include="Public\Snowdrop\MCommon\MC_String.h" />
+    <ClInclude Include="Public\Snowdrop\MCommon\MC_Vector.h" />
+    <!-- Private Headers -->
+    <ClInclude Include="Private\Core\framework.h" />
+    <ClInclude Include="Private\Core\git_commit.h" />
+    <ClInclude Include="Private\Core\global.h" />
+    <ClInclude Include="Private\Core\includes.h" />
+    <ClInclude Include="Private\Memory\functions.h" />
+    <ClInclude Include="Private\Memory\mem.h" />
+    <ClInclude Include="Private\Logging\logger.h" />
+    <ClInclude Include="Private\Loader\loader_manager.h" />
+    <ClInclude Include="Private\Loader\mod_loader.h" />
+    <ClInclude Include="Private\Hooks\hooks.h" />
+    <ClInclude Include="Private\GUI\gui.h" />
+    <ClInclude Include="Private\GUI\camera_loop.h" />
+    <ClInclude Include="Private\Proxy\uplay_proxy.h" />
+    <!-- Third-Party Headers -->
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />
@@ -211,25 +234,25 @@
     <ClInclude Include="ImGui\imstb_rectpack.h" />
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
-    <ClInclude Include="hooks.h" />
     <ClInclude Include="ImGui\stb_image.h" />
     <ClInclude Include="ImGui\stb_rect_pack.h" />
     <ClInclude Include="ImGui\stb_textedit.h" />
     <ClInclude Include="ImGui\stb_truetype.h" />
-    <ClInclude Include="includes.h" />
     <ClInclude Include="kiero\kiero.h" />
-    <ClInclude Include="loader_manager.h" />
-    <ClInclude Include="logger.h" />
     <ClInclude Include="magic_enum\magic_enum.hpp" />
-    <ClInclude Include="mem.h" />
     <ClInclude Include="memcury\memcury.h" />
-    <ClInclude Include="mod_loader.h" />
-    <ClInclude Include="uplay_proxy.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="loader_manager.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="functions.cpp" />
+    <!-- Private Sources -->
+    <ClCompile Include="Private\Core\dllmain.cpp" />
+    <ClCompile Include="Private\Memory\functions.cpp" />
+    <ClCompile Include="Private\Memory\mem.cpp" />
+    <ClCompile Include="Private\Hooks\hooks.cpp" />
+    <ClCompile Include="Private\Loader\loader_manager.cpp" />
+    <ClCompile Include="Private\Loader\mod_loader.cpp" />
+    <ClCompile Include="Private\Proxy\uplay_proxy.cpp" />
+    <ClCompile Include="Private\VFS\VFS.cpp" />
+    <!-- Third-Party Sources -->
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
@@ -237,10 +260,6 @@
     <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="kiero\kiero.cpp" />
-    <ClCompile Include="mem.cpp" />
-    <ClCompile Include="hooks.cpp" />
-    <ClCompile Include="mod_loader.cpp" />
-    <ClCompile Include="uplay_proxy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ImGui\LICENSE.txt" />
